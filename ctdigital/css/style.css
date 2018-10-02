@@ -1,0 +1,458 @@
+/* 
+    Created on : 19/03/2017, 22:37:20
+    Author     : Wictor
+*/
+/*Global*/
+.bordaVermelha{
+    border: 1px solid #f00 !important;
+}
+.oculto{
+    display: none;
+}
+.transparente{
+    opacity: 0.0;
+    filter: alpha(opacity=0); 
+}
+.fino{
+    height: 5px;
+}
+.nao-aparece{
+    width: 0;
+    height: 0;
+}
+#cropContaineroutput{
+
+}
+.cropContaineroutput{
+    width:128px; 
+    height:128px;
+    border: 1px solid #d2d6de;
+}
+/*Global*/
+ul.ui-menu{
+    background-color: #fff;
+    border-top: 1px solid #fff;
+    list-style-type: none;
+    padding: 0;
+    margin-right: 51px;   
+    box-shadow: 1px 1px 5px #ccc;
+}
+ul.ui-menu li.ui-menu-item{
+    background-color: #fff;
+    color: #111111;
+    padding: 5px 5px 5px 10px;
+    cursor: pointer;
+    cursor: hand;
+}
+ul.ui-menu li.ui-menu-item:hover{
+    background-color: #d2d6de;
+    color: #111111;
+}
+ul.ui-menu li.ui-menu-item .ui-menu-item-wrapper{
+
+}
+/* Campo para masculino e feminino - Inicio */
+.btn-group .btn-default{
+    background-color:#e6e6e6;
+    color: #000;
+    border:1px solid #8c8c8c;
+}
+.btn-group .btn-primary{
+    background-color:#e6e6e6;
+    color: #000;
+    border:1px solid #8c8c8c;
+}
+.btn-group .btn-default:hover{
+    background-color:#d4d4d4;
+    color: #333333;
+
+}
+.btn-group .btn-primary:hover{
+    background-color:#d4d4d4;
+    color: #333333;
+}
+.btn-group .active{
+    color: #fff;
+    background-color:#337ab7;
+}
+.btn-group .active:hover{
+    color: #fff;
+    background-color:#286090;
+    border:1px solid #2e6da4;
+}
+/* Campo para masculino e feminino - Fim */
+/* Loading... - Inicio */
+.carregando{
+    background-color: #fff;
+    background-image: url("../images/ajax-load.gif");
+    display:block;
+    position:fixed;
+    height: 100%;
+    width: 100%;
+    z-index:9999;
+    opacity: 0.5;
+    background-repeat: no-repeat;
+    background-position: center; 
+    display: none;
+}
+/* Loading... - Fim */
+/* Mensagem de aviso em todas as paginas - Inicio */
+.mensagem_all{
+    width: 100%;
+    height: 60px;
+    position:fixed;
+    z-index:9999;
+    display:block;
+    display: none;
+    top:0;
+}
+.mensagem_all .mensagem_all_content{
+    cursor: pointer; 
+    cursor: hand; 
+    border-top: 5px solid #009551;
+    margin: 0 auto;
+    color:#fff;
+    text-align: center;
+    background-color: #00A65A;
+    width: 500px;
+    padding-top: 3px;
+    height: 30px;
+    box-sizing: border-box;
+    border-bottom-left-radius: 1em;
+    border-bottom-right-radius: 1em;
+    box-shadow: 0px 0px 1px #ffffff;
+}
+.mensagem_all .error{
+    background-color: #DD4B39;
+    border-top: 5px solid #C64333;
+}
+.mensagem_all .warning{
+    background-color: #f39c12;
+    border-top: 5px solid #db8b0b;
+}
+/* Mensagem de aviso em todas as paginas - Fim */
+/*AÇÕES*/
+.show{
+    display: block;
+}
+@media screen and (max-width: 540px) {
+    .mensagem_all{
+        width: 100%;
+    }
+    .mensagem_all .mensagem_all_content{
+        width: 100%;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        box-shadow: 0px 0px 1px #ffffff;
+    }
+    .mensagem_all .error{
+        width: 100%;
+    }
+}
+/* CROPPIC - INICIO */
+#cropContainerModal{ width:100%; height:200px; position: relative; border:1px solid #ccc;}
+#cropContaineroutput{ width:100%; height:145px; position: relative; border:1px solid #ccc;}
+#cropContainerEyecandy{ width:100%; height:200px; position: relative; border:1px solid #ccc;}
+#cropContainerPreload{ width:100%; height:200px; position: relative; border:1px solid #ccc;}
+#cropContainerMinimal{ width:100%; height:200px; position: relative; border:1px solid #ccc;}
+#cropContainerPlaceHolder2{ width:100%; height:200px; position: relative; border:none;}
+
+#croppic{
+    width: 400px;  /* MANDATORY */
+    height: 208px; /* MANDATORY */
+    position: relative;  /* MANDATORY */
+
+    margin: 50px 70px 20px;
+    border: 3px  solid #FFF;
+    box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    border-radius: 2px;
+    background-image: url(../images/croppic/placeholder.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    box-shadow: 8px 8px 0px rgba(0,0,0,0.1);
+}
+
+/* DO NOT CHANGE FROM HERE ( unless u know what u are doing) */
+.cropImgWrapper{
+    cursor: -webkit-grab;
+    cursor: grab;
+}
+.cropImgWrapper:active{
+    cursor: -webkit-grabbing;
+    cursor: grabbing;
+}
+
+.cropImgUpload{
+    z-index:2;
+    position:absolute;
+    height:28px;
+    display:block;
+    top: -30px;
+    right: -2px;
+    font-family:sans-serif;
+    width:20px;
+    height:20px;
+    text-align:center;
+    line-height:20px;
+    color:#FFF;
+}
+
+.cropControls{
+    z-index:2;
+    position:absolute;
+    height:30px;
+    display:block;
+    /* top: -31px; */
+    top: -1px;
+    right: -1px;
+    font-family:sans-serif;
+    background-color:rgba(0,0,0,0.35); 
+}
+
+.cropControls i{
+    display:block;
+    float:left;
+    margin:0;
+    cursor:pointer;
+    background-image:url('../images/croppic/cropperIcons.png');	
+    width:30px;
+    height:30px;
+    text-align:center;
+    line-height:20px;
+    color:#FFF;
+    font-size:13px;
+    font-weight: bold;
+    font-style: normal;
+
+}
+
+.cropControls i:hover{ background-color:rgba(0,0,0,0.7);  }
+
+.cropControls i.cropControlZoomMuchIn{ background-position:0px 0px;}
+.cropControls i.cropControlZoomIn{ background-position:-30px 0px; }
+.cropControls i.cropControlZoomOut{ background-position:-60px 0px; }
+.cropControls i.cropControlZoomMuchOut{ background-position:-90px 0px; }
+.cropControls i.cropControlRotateLeft{ background-position:-210px 0px; }
+.cropControls i.cropControlRotateRight{ background-position:-240px 0px; }
+.cropControls i.cropControlCrop{ background-position:-120px 0px;}
+.cropControls i.cropControlUpload{ background-position:-150px 0px; height: 100% !important;}
+.cropControls i.cropControlReset{ background-position:-180px 0px;}
+.cropControls i.cropControlRemoveCroppedImage{ background-position:-180px 0px;}
+
+.cropControls i:last-child{
+    margin-right:none;
+}
+
+#croppicModal{
+    position:fixed;
+    width:100%;
+    height:100%;
+    top: 0;
+    left: 0;
+    display:block;
+    background:rgba(0,0,0,0.8);
+    z-index: 10000;
+}
+
+
+/*
+*		PRELOADER 
+*		With courtesy of : http://cssload.net/
+*/
+
+.bubblingG {
+    text-align: center;
+    width:80px;
+    height:50px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: -18px auto auto -40px;
+    z-index:2;
+}
+
+.bubblingG span {
+    display: inline-block;
+    vertical-align: middle;
+    width: 10px;
+    height: 10px;
+    margin: 25px auto;
+    background: #FFF;
+    box-shadow: 5px 5px 0px rgba(0,0,0,0.2);
+    -moz-border-radius: 50px;
+    -moz-animation: bubblingG 1s infinite alternate;
+    -webkit-border-radius: 50px;
+    -webkit-animation: bubblingG 1s infinite alternate;
+    -ms-border-radius: 50px;
+    -ms-animation: bubblingG 1s infinite alternate;
+    -o-border-radius: 50px;
+    -o-animation: bubblingG 1s infinite alternate;
+    border-radius: 50px;
+    animation: bubblingG 1s infinite alternate;
+
+}
+
+#bubblingG_1 {
+    -moz-animation-delay: 0s;
+    -webkit-animation-delay: 0s;
+    -ms-animation-delay: 0s;
+    -o-animation-delay: 0s;
+    animation-delay: 0s;
+}
+
+#bubblingG_2 {
+    -moz-animation-delay: 0.3s;
+    -webkit-animation-delay: 0.3s;
+    -ms-animation-delay: 0.3s;
+    -o-animation-delay: 0.3s;
+    animation-delay: 0.3s;
+}
+
+#bubblingG_3 {
+    -moz-animation-delay: 0.6s;
+    -webkit-animation-delay: 0.6s;
+    -ms-animation-delay: 0.6s;
+    -o-animation-delay: 0.6s;
+    animation-delay: 0.6s;
+}
+#cropContaineroutput{
+    width: 130px;
+    height: 130px;
+}
+
+@-moz-keyframes bubblingG {
+    0% {
+        width: 10px;
+        height: 10px;
+        background-color:#FFF;
+        -moz-transform: translateY(0);
+    }
+
+    100% {
+        width: 24px;
+        height: 24px;
+        background-color:#FFF;
+        -moz-transform: translateY(-21px);
+    }
+
+}
+
+@-webkit-keyframes bubblingG {
+    0% {
+        width: 10px;
+        height: 10px;
+        background-color:#FFF;
+        -webkit-transform: translateY(0);
+    }
+
+    100% {
+        width: 24px;
+        height: 24px;
+        background-color:#FFF;
+        -webkit-transform: translateY(-21px);
+    }
+
+}
+
+@-ms-keyframes bubblingG {
+    0% {
+        width: 10px;
+        height: 10px;
+        background-color:#FFF;
+        -ms-transform: translateY(0);
+    }
+
+    100% {
+        width: 24px;
+        height: 24px;
+        background-color:#FFF;
+        -ms-transform: translateY(-21px);
+    }
+
+}
+
+@-o-keyframes bubblingG {
+    0% {
+        width: 10px;
+        height: 10px;
+        background-color:#FFF;
+        -o-transform: translateY(0);
+    }
+
+    100% {
+        width: 24px;
+        height: 24px;
+        background-color:#FFF;
+        -o-transform: translateY(-21px);
+    }
+
+}
+
+@keyframes bubblingG {
+    0% {
+        width: 10px;
+        height: 10px;
+        background-color:#FFF;
+        transform: translateY(0);
+    }
+
+    100% {
+        width: 24px;
+        height: 24px;
+        background-color:#FFF;
+        transform: translateY(-21px);
+    }
+
+}
+/* CROPPIC - FIM */
+/* parsley - INICIO */
+.parsley-error{
+    border-color: #dd4b39;
+    box-shadow: none;
+}
+.parsley-error:hover{
+    border-color: #cc0033;
+    box-shadow: none;
+}
+ul.parsley-errors-list{
+    list-style-type: none;
+    padding: 0;
+}
+ul.parsley-errors-list li{
+    color: #dd4b39;
+    display: block;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+}
+/* parsley - FIM*/
+
+/* Tabela com pesquisa - INICIO */
+table.dataTable thead th {
+    position: relative;
+    background-image: none !important;
+}
+
+table.dataTable thead th.sorting:after,
+table.dataTable thead th.sorting_asc:after,
+table.dataTable thead th.sorting_desc:after {
+    position: absolute;
+    top: 12px;
+    right: 8px;
+    display: block;
+    font-family: FontAwesome;
+}
+table.dataTable thead th.sorting:after {
+    content: "\f0dc";
+    color: #ddd;
+    font-size: 0.8em;
+    padding-top: 0.12em;
+}
+table.dataTable thead th.sorting_asc:after {
+    content: "\f0de";
+}
+table.dataTable thead th.sorting_desc:after {
+    content: "\f0dd";
+}
+/* Tabela com pesquisa - FIM */

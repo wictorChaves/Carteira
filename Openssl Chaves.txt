@@ -1,0 +1,60 @@
+#Entidade Certificadora
+
+	#Cria a chave privada
+		genrsa -des3 -out ca.key 4096
+	#Cria a chave publica (certificado)
+		req -new -x509 -days 3650 -key ca.key -out ca.crt
+	
+	#Informações do certificado
+	Country Name (2 letter code) [AU]:BR
+	State or Province Name (full name) [Some-State]:Minas Gerais
+	Locality Name (eg, city) []:Ipatinga
+	Organization Name (eg, company) [Internet Widgits Pty Ltd]:WS Corporation
+	Organizational Unit Name (eg, section) []:WS Certification
+	Common Name (e.g. server FQDN or YOUR name) []:Principal
+	Email Address []:wictor@hotmail.com.br
+	
+#CPF
+
+	#Cria a chave privada
+		genrsa -out cpf.key 4096
+	#Cria um pacote com as informações do certificado
+		req -new -key cpf.key -out cpf.csr
+	#Cria a chave publica (certificado)
+		x509 -req -days 365 -in cpf.csr -CA ca.crt -CAkey ca.key -set_serial 02052017 -out cpf.crt
+	#Converte a chave privada para um formato(pkcs8) em que o java aceite
+		pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in cpf.key -out chave.key
+
+	Country Name (2 letter code) [AU]:BR
+	State or Province Name (full name) [Some-State]:Minas Gerais
+	Locality Name (eg, city) []:Ipatinga
+	Organization Name (eg, company) [Internet Widgits Pty Ltd]:Pessoa Fisica
+	Organizational Unit Name (eg, section) []:PF Certification
+	Common Name (e.g. server FQDN or YOUR name) []:Joao da Silva
+	Email Address []:joao@hotmail.com.br
+	
+#CNPJ
+
+	#Cria a chave privada
+		genrsa -out cnpj.key 4096
+	#Cria um pacote com as informações do certificado
+		req -new -key cnpj.key -out cnpj.csr
+	#Cria a chave publica (certificado)
+		x509 -req -days 365 -in cnpj.csr -CA ca.crt -CAkey ca.key -set_serial 03052017 -out cnpj.crt
+	#Converte a chave privada para um formato(pkcs8) em que o java aceite
+		pkcs8 -topk8 -inform PEM -outform PEM -nocrypt -in cnpj.key -out chave.key
+
+	Country Name (2 letter code) [AU]:BR
+	State or Province Name (full name) [Some-State]:Minas Gerais
+	Locality Name (eg, city) []:Ipatinga
+	Organization Name (eg, company) [Internet Widgits Pty Ltd]:Empresa Corporation
+	Organizational Unit Name (eg, section) []:Empresa Certification
+	Common Name (e.g. server FQDN or YOUR name) []:Empresa Company
+	Email Address []:empresa@hotmail.com.br
+
+#Servidor
+    
+    #Criar chave para o servidor
+        req -x509 -nodes -days 1095 -newkey rsa:2048 -out server.crt -keyout server.key
+    #Copiar para a pasta
+        C:\wamp64\bin\apache\apache2.4.23\conf

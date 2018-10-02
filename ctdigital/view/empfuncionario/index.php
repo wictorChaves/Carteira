@@ -1,0 +1,64 @@
+<?php
+
+use core\StringHelper;
+use core\StatusVO;
+?>
+<!-- /top tiles -->
+<div id="infoView" hidden=""> 
+    <div id="_tituloHead">Lista de Empregados</div>
+    <div id="_tituloMenuPrincipal">Funcionários</div>
+    <div id="_tituloView">Lista</div>
+    <div id="_icon">fa-group</div>
+</div>
+<!-- TABLE: LATEST ORDERS -->
+<div class="box box-info">
+    <div class="box-header with-border">
+        <h3 class="box-title">Funcionários</h3>
+
+        <div class="box-tools pull-right">
+            <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+            </button>
+        </div>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <div class="table-responsive">
+            <table class="tabela_com_busca table no-margin">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Sexo</th>
+                        <th>CPF</th>
+                        <th>Status</th>
+                        <th>Data de Nascimento</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (isset($_pagina['model'])) : ?>
+                        <?php foreach ($_pagina['model'] as $item): ?>
+                            <tr>
+                                <td><a href="../../empfuncionario/detalhes/?id=<?php echo $item['id']; ?>"><?php echo $item['nome']; ?></a></td>
+                                <td><?php echo StringHelper::getSexo($item['sexo']); ?></td>
+                                <td><?php echo StringHelper::getCpf($item['cpf']); ?></td>
+                                <td>
+                                    <span class="label <?php echo StatusVO::getLabel(StatusVO::getStatus($item)); ?>">
+                                        <?php echo StatusVO::getValor(StatusVO::getStatus($item)); ?>
+                                    </span>
+                                </td>
+                                <td><?php echo StringHelper::dataEN2BR($item['data_nascimento']); ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                        <?php
+                    else : echo "Não há dados!";
+                    endif;
+                    ?>
+                </tbody>
+            </table>
+        </div>
+        <!-- /.table-responsive -->
+    </div>
+    <!-- /.box-body -->
+    <div class="box-footer clearfix">
+    </div>
+    <!-- /.box-footer -->
+</div>

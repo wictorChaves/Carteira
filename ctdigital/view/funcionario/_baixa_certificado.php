@@ -1,0 +1,1 @@
+<a href="../../Certificados/<?php echo $funcionario->getCpf(); ?>.zip" class="btn btn-primary btn-block"><b>Baixar Certificado</b></a>

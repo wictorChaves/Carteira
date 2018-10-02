@@ -1,0 +1,24 @@
+#:::::::::::::::::::::::: ATENÇÃO :::::::::::::::::::::::::#
+#   O rewrite_module deve esta ativo!                      #
+#   Para ativar, encontre a linha onde se encontra o       #
+#   "rewrite_module" e remova o comentario no arquivo      #
+#   "httpd.conf" e reinicie o serviço apache               #
+#::::::::::::::::::::::::::::::::::::::::::::::::::::::::::#
+
+#Ativa o módulo Rewrite, que faz a reescrita de URL
+RewriteEngine On
+
+#Informa o que vai ser direcionado
+#https://httpd.apache.org/docs/current/mod/mod_rewrite.html#rewritecond
+#Determina que o rewrite só se aplicará se nao (!) existir um diretório (-d) com aquele nome
+RewriteCond %{REQUEST_FILENAME} !-d
+#Determina que o rewrite só se aplicará se nao (!) existir um arquivo (-f) com aquele nome
+RewriteCond %{REQUEST_FILENAME} !-f
+#Determina que o rewrite só se aplicará se nao (!) existir um link simbolico (-l) com aquele nome
+RewriteCond %{REQUEST_FILENAME} !-l
+
+#Informa que tudo deve passar para index, [path] é a url informada
+RewriteRule ^(.+)$ index.php?path=$1 [QSA,L]
+
+#Não permite que o usuário acesse os arquivos diretamente na pasta
+Options -indexes
